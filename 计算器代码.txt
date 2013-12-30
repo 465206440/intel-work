@@ -1,0 +1,248 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<script language="javascript">
+var curState;
+var curOper;
+ num1;
+var preOper;
+function setStartState()
+{
+	curState="beStart";
+	num1=0;
+	curOper="start";
+	preOper=false;
+}
+function addNum(i)
+{
+	if(preOper==true)
+	{
+		cal.total.value=i;
+		preOper=false;
+	}
+	else
+	{
+		if(cal.total.value=="0")
+		{
+			cal.total.value=i;
+			curState="beInteger";
+		}
+		else
+		cal.total.value+=i;
+	}
+}
+function addPoint()
+{
+	if(curState=="beStart"||curState=="beInteger")
+	{
+		cal.total.value+=".";
+		curState="beFloat";//将当前状态设置为float
+	}
+}
+function cleartext()//清空计算结果文本框内容
+{
+	cal.total.value="0";
+	curState="beStart";
+	curOper="start";
+}
+function count()//基本的加减乘除运算
+{
+	if(curOper!="start")
+	{
+		switch(curOper)//根据curOper的值确定运算法则
+		{
+			case "+":
+			num1=parseFloat(num1)+parseFloat(cal.total.value);break;
+			case "-":
+			num1=parseFloat(num1)-parseFloat(cal.total.value);break;
+			case "*":
+			num1=parseFloat(num1)*parseFloat(cal.total.value);break;
+			case "/":
+			num1=parseFloat(num1)/parseFloat(cal.total.value);break;
+		}
+		cal.total.value=num1;
+		preOper=true;
+	}
+	preOper="start";
+}
+function setOper(oper)//当点击“+-*、”时，设置当前的运算法则
+{
+	//alert(curOper);
+	preOper=true;//为布尔型，表示再次之前是否刚刚单击过双边运算法符
+	if(curOper=="start")
+	{
+		//alert(curOper);
+		num1=0+cal.total.value;/*将第一个值用num1保存，采用‘0+’把total.value字符串转化为数值型，类似于使用parsefloat（）0方法*/		
+		curOper=oper;
+		//alert(num1);
+	}
+	else
+	{
+		count();
+		curOper=oper;
+	}
+	//alert(curOper);
+}
+function useFunc(func)
+{
+	switch(func)
+	{
+		case "sin":
+		cal.total.value=Math.sin(cal.total.value);
+		preOper=true;
+		break;
+		case "cos":
+		cal.total.value=Math.cos(cal.total.value);
+		preOper=true;
+		break;
+		case "asin":
+		cal.total.value=Math.asin(cal.total.value);
+		preOper=true;
+		break;
+		case "acos":
+		cal.total.value=Math.acos(cal.total.value);
+		preOper=true;
+		break;
+		case "tan":
+		cal.total.value=Math.tan(cal.total.value);
+		preOper=true;
+		break;
+		case "atan":
+		cal.total.value=Math.atan(cal.total.value);
+		preOper=true;
+		break;
+		case "log":
+		cal.total.value=Math.log(cal.total.value);
+		preOper=true;
+		break;
+		case "exp":
+		cal.total.value=Math.exp(cal.total.value);
+		preOper=true;
+		break;
+		case "sqrt":
+		cal.total.value=Math.sqrt(cal.total.value);
+		preOper=true;
+		break;
+		case "1/x":
+		cal.total.value=1/cal.total.value;
+		preOper=true;
+		break;
+	}
+}
+</script>
+<body onload="setStartState()">
+<font size=6></font>
+<form name="cal">
+<!--下面的代码使用表格来生成计算器操作界面-->
+<table border="2" align="left">
+<tr align="center">
+<td colspan="6">
+<input type="text" name="total" size="40" value="0">
+</td>
+</tr>
+<tr align="center">
+<td>
+<input type="button" style="width:40px" value="sin" onclick="useFunc('sin')"/>
+</td>
+<td>
+<input type="button" style="width:40px" value="cos" onclick="useFunc('cos')"/>
+</td>
+<td width="52">
+<input type="button" style="width:40px" value="1" onclick="addNum(1)">
+</td>
+<td width="41">
+<input type="button" style="width:40px" value="2" onclick="addNum('2')">
+</td>
+<td width="41">
+<input type="button" style="width:40px" value="3" onclick="addNum('3')">
+</td>
+<td width="40">
+<input type="button" style="width:40px" value="+" onclick="setOper('+')">
+</td>
+</tr>
+<tr align="center">
+<td>
+<input type="button" style="width:40px" value="asin" onclick="useFunc('asin')">
+</td>
+<td>
+<input type="button" style="width:40px" value="acos" onclick="useFunc('acos')">
+</td>
+<td>
+<input type="button" style="width:40px"  value="4" onclick="addNum('4')">
+</td>
+<td>
+<input type="button" style="width:40px" value="5" onclick="addNum('5')">
+</td>
+<td>
+<input type="button" style="width:40px" value="6" onclick="addNum('6')">
+</td>
+<td>
+<input type="button" style="width:40px" value="-" onclick="setOper('-')">
+</td>
+</tr>
+<tr align="center">
+<td>
+<input type="button" style="width:40px" value="tan" onclick="useFunc('tan')">
+</td>
+<td>
+<input type="button" style="width:40px" value="atan" onclick="useFunc('atan')">
+</td>
+<td>
+<input type="button" style="width:40px" value="7" onclick="addNum('7')">
+</td>
+<td>
+<input type="button" style="width:40px" value="8" onclick="addNum('8')">
+</td>
+<td>
+<input type="button" style="width:40px" value="9" onclick="addNum('9')">
+</td>
+<td>
+<input type="button" style="width:40px" value="*" onclick="setOper('*')">
+</td>
+</tr>
+<tr align="center">
+<td>
+<input type="button" style="width:40px" value="log" onclick="useFunc('log')">
+</td>
+<td>
+<input type="button" style="width:40px" value="exp" onclick="useFunc('exp')">
+</td>
+<td>
+<input type="button" style="width:40px" value="0" onclick="addNum('0')">
+</td>
+<td>
+<input type="button" style="width:40px" value="." onclick="addNum('.')">
+</td>
+<td>
+<input type="button" style="width:40px" value="=" onclick="count()">
+</td>
+<td>
+<input type="button" style="width:40px" value="/" onclick="setOper('/')">
+</td>
+</tr>
+<tr align="center">
+<td>
+<input type="button" style="width:40px" value="sqrt" onclick="useFunc('sqrt')">
+</td>
+<td>
+<input type="button" style="width:40px" value="1/x" onclick="useFunc('1/x')">
+</td>
+<td>
+<input type="button" style="width:40px" value="pi" onclick="cal.totoal.value=Math.PI">
+</td>
+<td>
+<input type="button" style="width:40px" value="E" onclick="cal.total.value=Math.E">
+</td>
+<td colspan="2">
+<input type="button" style="width:80px" value="empty" onclick="cleartext()">
+</td>
+</table>
+</form>
+
+</td>
+</tr>
+</body>
+</html>
